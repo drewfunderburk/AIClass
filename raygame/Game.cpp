@@ -1,7 +1,13 @@
 #include "Game.h"
 #include "raylib.h"
 #include "Player.h"
-
+#include "Agent.h"
+#include "SeekBehaviour.h"
+#include "FleeBehaviour.h"
+#include "WanderBehaviour.h"
+#include "PursueBehaviour.h"
+#include "EvadeBehaviour.h"
+#include "ArrivalBehaviour.h"
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
 int Game::m_sceneCount = 0;
@@ -26,11 +32,22 @@ void Game::start()
 	m_camera->offset = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
 	m_camera->zoom = 1;
-	Player* player = new Player(10, 10, 5, "Images/player.png", 1);
-	Actor* enemy = new Actor(20, 10, 5, "Images/enemy.png", 1);
+
+	// Init agents
+	Player* player = new Player(10, 10, 5, "Images/player.png", 1, 10);
+	Agent* enemy = new Agent(20, 10, 1, "Images/enemy.png", 1, 10);
+	Agent* enemy2 = new Agent(15, 10, 1, "Images/enemy.png", 1, 10);
+
+	// Create new seek behaviour and add to enemy
+	ArrivalBehaviour* arrive = new ArrivalBehaviour(player, 10);
+	SeekBehaviour* seek = new SeekBehaviour(player, 10);
+	enemy->addBehaviour(arrive);
+	enemy2->addBehaviour(seek);
+
 	Scene* scene = new Scene();
 	scene->addActor(player);
 	scene->addActor(enemy);
+	scene->addActor(enemy2);
 	addScene(scene);
 	SetTargetFPS(60);
 }

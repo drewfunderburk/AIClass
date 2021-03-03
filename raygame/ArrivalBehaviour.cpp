@@ -1,19 +1,20 @@
-#include "SeekBehaviour.h"
+#include "ArrivalBehaviour.h"
 #include "Agent.h"
+#include <cmath>
 
-SeekBehaviour::SeekBehaviour()
+ArrivalBehaviour::ArrivalBehaviour()
 {
 	m_target = nullptr;
 	m_seekForce = 1;
 }
 
-SeekBehaviour::SeekBehaviour(Actor* target, float seekForce)
+ArrivalBehaviour::ArrivalBehaviour(Actor* target, float seekForce)
 {
 	m_target = target;
 	m_seekForce = seekForce;
 }
 
-void SeekBehaviour::update(Agent* agent, float deltaTime)
+void ArrivalBehaviour::update(Agent* agent, float deltaTime)
 {
 	// Check if agent is null
 	if (!agent)
@@ -23,16 +24,18 @@ void SeekBehaviour::update(Agent* agent, float deltaTime)
 	agent->addForce(calculateForce(agent));
 }
 
-MathLibrary::Vector2 SeekBehaviour::calculateForce(Agent* agent)
+MathLibrary::Vector2 ArrivalBehaviour::calculateForce(Agent* agent)
 {
 	// Find the direction to move
 	MathLibrary::Vector2 direction = (m_target->getWorldPosition() - agent->getWorldPosition()).getNormalized();
 
+	float distanceToTarget = abs((m_target->getWorldPosition() - agent->getWorldPosition()).getMagnitude());
 	// Scale the direction vector by seekForce
-	MathLibrary::Vector2 desiredVelocity = direction * m_seekForce;
+	MathLibrary::Vector2 desiredVelocity = direction * fmin(distanceToTarget / 5, m_seekForce);
 
 	// Subtract current velocity from desired velocity to find steering force
 	MathLibrary::Vector2 steeringForce = desiredVelocity - agent->getVelocity();
+
 
 	return steeringForce;
 }

@@ -5,8 +5,9 @@
 #include <iostream>
 #include "Bullet.h"
 
-Player::Player(float x, float y, float collisionRadius, const char* spriteFilePath, float maxSpeed = 1) : Actor(x, y, collisionRadius, spriteFilePath, maxSpeed)
+Player::Player(float x, float y, float collisionRadius, const char* spriteFilePath, float maxSpeed, float maxForce) : Agent(x, y, collisionRadius, spriteFilePath, maxSpeed, maxForce)
 {
+
 }
 
 void Player::update(float deltatime)

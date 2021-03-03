@@ -32,6 +32,7 @@ public:
 
     // Add the given force to the total force being applied to the agent.
     void addForce(MathLibrary::Vector2 force);
+    void addBehaviour(Behaviour* behaviour);
 
     float getMaxForce() { return m_maxForce; }
     void setMaxForce(float maxForce) { m_maxForce = maxForce; }

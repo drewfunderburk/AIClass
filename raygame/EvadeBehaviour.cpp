@@ -1,19 +1,19 @@
-#include "SeekBehaviour.h"
+#include "EvadeBehaviour.h"
 #include "Agent.h"
 
-SeekBehaviour::SeekBehaviour()
+EvadeBehaviour::EvadeBehaviour()
 {
 	m_target = nullptr;
 	m_seekForce = 1;
 }
 
-SeekBehaviour::SeekBehaviour(Actor* target, float seekForce)
+EvadeBehaviour::EvadeBehaviour(Actor* target, float seekForce)
 {
 	m_target = target;
 	m_seekForce = seekForce;
 }
 
-void SeekBehaviour::update(Agent* agent, float deltaTime)
+void EvadeBehaviour::update(Agent* agent, float deltaTime)
 {
 	// Check if agent is null
 	if (!agent)
@@ -23,10 +23,10 @@ void SeekBehaviour::update(Agent* agent, float deltaTime)
 	agent->addForce(calculateForce(agent));
 }
 
-MathLibrary::Vector2 SeekBehaviour::calculateForce(Agent* agent)
+MathLibrary::Vector2 EvadeBehaviour::calculateForce(Agent* agent)
 {
 	// Find the direction to move
-	MathLibrary::Vector2 direction = (m_target->getWorldPosition() - agent->getWorldPosition()).getNormalized();
+	MathLibrary::Vector2 direction = (agent->getWorldPosition() - (m_target->getWorldPosition() + m_target->getVelocity())).getNormalized();
 
 	// Scale the direction vector by seekForce
 	MathLibrary::Vector2 desiredVelocity = direction * m_seekForce;
