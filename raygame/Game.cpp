@@ -36,7 +36,7 @@ void Game::start()
 	// Init agents
 	Player* player = new Player(10, 10, 5, "Images/player.png", 1, 10);
 	Agent* enemy = new Agent(20, 10, 1, "Images/enemy.png", 1, 10);
-	Agent* enemy2 = new Agent(15, 10, 1, "Images/enemy.png", 1, 10);
+	Agent* enemy2 = new Agent(20, 10, 1, "Images/enemy.png", 1, 10);
 
 	// Create new seek behaviour and add to enemy
 	ArrivalBehaviour* arrive = new ArrivalBehaviour(player, 10);

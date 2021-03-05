@@ -1,6 +1,5 @@
 #include "ArrivalBehaviour.h"
 #include "Agent.h"
-#include <cmath>
 
 ArrivalBehaviour::ArrivalBehaviour()
 {
@@ -29,13 +28,20 @@ MathLibrary::Vector2 ArrivalBehaviour::calculateForce(Agent* agent)
 	// Find the direction to move
 	MathLibrary::Vector2 direction = (m_target->getWorldPosition() - agent->getWorldPosition()).getNormalized();
 
-	float distanceToTarget = abs((m_target->getWorldPosition() - agent->getWorldPosition()).getMagnitude());
+	// Get distance to target
+	float distanceToTarget = (m_target->getWorldPosition() - agent->getWorldPosition()).getMagnitude();
+
 	// Scale the direction vector by seekForce
-	MathLibrary::Vector2 desiredVelocity = direction * fmin(distanceToTarget / 5, m_seekForce);
+	MathLibrary::Vector2 desiredVelocity;
+	float radius = 5;
+	if (distanceToTarget > radius)
+		desiredVelocity = direction * m_seekForce;
+	else
+		desiredVelocity = direction * m_seekForce * (distanceToTarget / radius);
 
 	// Subtract current velocity from desired velocity to find steering force
 	MathLibrary::Vector2 steeringForce = desiredVelocity - agent->getVelocity();
 
-
+	
 	return steeringForce;
 }
