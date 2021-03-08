@@ -37,9 +37,33 @@ public:
     float getMaxForce() { return m_maxForce; }
     void setMaxForce(float maxForce) { m_maxForce = maxForce; }
 
+    template<typename BehaviourType>
+    /// <summary>
+    /// Returns the first behaviour that matches the given type.
+    /// If no behaviour matches the type, returns nullptr
+    /// </summary>
+    BehaviourType* getBehaviour();
+
 private:
 	MathLibrary::Vector2 m_force;
 	float m_maxForce;
 	std::vector<Behaviour*> m_behaviours;
 };
 
+template<typename BehaviourType>
+inline BehaviourType* Agent::getBehaviour()
+{
+    // Iterate through list of behaviours
+    for (int i = 0; i < m_behaviours.size(); i++)
+    {
+        // Attempt to cast a behaviour to the given type
+        BehaviourType* behaviour = dynamic_cast<BehaviourType*>(m_behaviours[i]);
+
+        // If the cast was successful, return the behaviour
+        if (behaviour)
+            return behaviour;
+    }
+
+    // If no behaviour of that type was found, return null
+    return nullptr;
+}
