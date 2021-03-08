@@ -16,6 +16,5 @@ public:
 private:
 	// Agent the behaviour is seeking
 	Actor* m_target;
-	float m_seekForce;
 };
 

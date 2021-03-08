@@ -19,6 +19,5 @@ public:
 private:
 	float m_circleDistance;
 	float m_circleRadius;
-	float m_seekForce;
 };
 
