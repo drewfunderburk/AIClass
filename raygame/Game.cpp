@@ -12,7 +12,8 @@ bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
 int Game::m_sceneCount = 0;
 int Game::m_currentSceneIndex = 0;
-
+int Game::m_screenWidth = 1024;
+int Game::m_screenHeight = 760;
 
 Game::Game()
 {
@@ -25,12 +26,12 @@ Game::Game()
 
 void Game::start()
 {
-	int screenWidth = 1024;
-	int screenHeight = 760;
+	m_screenWidth = 1024;
+	m_screenHeight = 760;
 
-	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-	m_camera->offset = { (float)screenWidth / 2, (float)screenHeight / 2 };
-	m_camera->target = { (float)screenWidth / 2, (float)screenHeight / 2 };
+	InitWindow(GetScreenWidth(), GetScreenHeight(), "raylib [core] example - basic window");
+	m_camera->offset = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
+	m_camera->target = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
 	m_camera->zoom = 1;
 
 	// Init agents

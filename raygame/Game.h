@@ -62,10 +62,14 @@ public:
     /// <returns></returns>
     static bool getKeyPressed(int key);
 
+    static int getScreenWidth() { return m_screenWidth; }
+    static int getScreenHeight() { return m_screenHeight; }
+
     static void destroy(Actor* actor);
     static void setGameOver(bool value);
     static MathLibrary::Matrix3* getWorld();
     void run();
+
 
 private:
 	void start();
@@ -79,4 +83,6 @@ private:
 	static Scene** m_scenes;
     static int m_sceneCount;
     static int m_currentSceneIndex;
+    static int m_screenWidth;
+    static int m_screenHeight;
 };
