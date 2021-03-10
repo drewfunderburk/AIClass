@@ -8,6 +8,8 @@
 #include "PursueBehaviour.h"
 #include "EvadeBehaviour.h"
 #include "ArrivalBehaviour.h"
+#include "SimpleEnemy.h"
+
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
 int Game::m_sceneCount = 0;
@@ -35,20 +37,20 @@ void Game::start()
 	m_camera->zoom = 1;
 
 	// Init agents
-	Player* player = new Player(10, 10, 5, "Images/player.png", 1, 10);
-	Agent* enemy = new Agent(20, 10, 1, "Images/enemy.png", 1, 10);
-	Agent* enemy2 = new Agent(20, 10, 1, "Images/enemy.png", 1, 10);
+	Player* player = new Player(10, 10, 5, "Images/player.png", 10, 10);
+	SimpleEnemy* enemy = new SimpleEnemy(20, 20, 5, "Images/enemy.png", player, 1, 1, 1, 1);
 
 	// Create new seek behaviour and add to enemy
-	ArrivalBehaviour* arrive = new ArrivalBehaviour(player, 10);
-	SeekBehaviour* seek = new SeekBehaviour(player, 10);
-	enemy->addBehaviour(arrive);
-	enemy2->addBehaviour(seek);
+	SeekBehaviour* seek = new SeekBehaviour(player, 1);
+	WanderBehaviour* wander = new WanderBehaviour(100, 10, 1);
+
+	enemy->addBehaviour(seek);
+	enemy->addBehaviour(wander);
 
 	Scene* scene = new Scene();
 	scene->addActor(player);
 	scene->addActor(enemy);
-	scene->addActor(enemy2);
+	
 	addScene(scene);
 	SetTargetFPS(60);
 }
