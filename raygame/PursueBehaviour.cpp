@@ -25,6 +25,10 @@ void PursueBehaviour::update(Agent* agent, float deltaTime)
 
 MathLibrary::Vector2 PursueBehaviour::calculateForce(Agent* agent)
 {
+	// Return a Vector of 0 if there is no target
+	if (!getTarget())
+		return MathLibrary::Vector2();
+
 	// Find the direction to move
 	MathLibrary::Vector2 direction = ((m_target->getWorldPosition() + m_target->getVelocity()) - agent->getWorldPosition()).getNormalized();
 
