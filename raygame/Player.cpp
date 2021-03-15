@@ -28,8 +28,10 @@ void Player::update(float deltatime)
 
     Actor::update(deltatime);
 
+    /*
     if (getHealth() <= 0)
         Game::destroy(this);
+    */
 }
 
 void Player::debug()
