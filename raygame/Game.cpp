@@ -9,6 +9,14 @@
 #include "EvadeBehaviour.h"
 #include "ArrivalBehaviour.h"
 #include "SimpleEnemy.h"
+#include "DecisionBehaviour.h"
+#include "ABDecision.h"
+#include "ComplexEnemy.h"
+#include "HealthLowDecision.h"
+#include "SeePlayerDecision.h"
+#include "WanderDecision.h"
+#include "PursueDecision.h"
+#include "EvadeDecision.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -37,19 +45,37 @@ void Game::start()
 	m_camera->zoom = 1;
 
 	// Init agents
-	Player* player = new Player(10, 10, 5, "Images/player.png", 10, 10);
-	SimpleEnemy* enemy = new SimpleEnemy(20, 20, 5, "Images/enemy.png", player, 1, 1, 1, 1);
+	Player* player = new Player(10, 10, 1, "Images/player.png", 10, 10);
 
-	// Create new seek behaviour and add to enemy
-	SeekBehaviour* seek = new SeekBehaviour(player, 1);
+	// Create complex enemy
+	ComplexEnemy* complexEnemy = new ComplexEnemy(20, 20, 1, "Images/enemy.png", player, 2, 1, 1, 1);
+
+	// Add behaviours
+	PursueBehaviour* pursue = new PursueBehaviour(player, 1);
+	EvadeBehaviour* evade = new EvadeBehaviour(player, 1);
 	WanderBehaviour* wander = new WanderBehaviour(100, 10, 1);
+	pursue->setEnabled(false);
+	evade->setEnabled(false);
+	complexEnemy->addBehaviour(pursue);
+	complexEnemy->addBehaviour(evade);
+	complexEnemy->addBehaviour(wander);
 
-	enemy->addBehaviour(seek);
-	enemy->addBehaviour(wander);
+	// Create decisions
+	PursueDecision* pursueDecision = new PursueDecision();
+	WanderDecision* wanderDecision = new WanderDecision();
+	EvadeDecision* evadeDecision = new EvadeDecision();
+	SeePlayerDecision* seePlayerDecision = new SeePlayerDecision(pursueDecision, wanderDecision);
+	HealthLowDecision* healthLowDecision = new HealthLowDecision(evadeDecision, seePlayerDecision, 2);
+
+	// Create decision behaviour
+	DecisionBehaviour* decisionBehaviour = new DecisionBehaviour(healthLowDecision);
+	
+	// Add behaviour to complex enemy
+	complexEnemy->addBehaviour(decisionBehaviour);
 
 	Scene* scene = new Scene();
 	scene->addActor(player);
-	scene->addActor(enemy);
+	scene->addActor(complexEnemy);
 	
 	addScene(scene);
 	SetTargetFPS(60);
