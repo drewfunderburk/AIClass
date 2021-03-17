@@ -17,6 +17,7 @@
 #include "WanderDecision.h"
 #include "PursueDecision.h"
 #include "EvadeDecision.h"
+#include "Graph.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -76,17 +77,23 @@ void Game::start()
 	Scene* scene = new Scene();
 	scene->addActor(player);
 	scene->addActor(complexEnemy);
-	
 	addScene(scene);
+
+
+	// PATHFINDING
+	Graph* graph = new Graph(20, 20, 10, 1);
+	graph->setWorldPostion({ 2,2 });
+	graph->BFS(0, 0, 2, 19);
+	Scene* pathfinding = new Scene();
+	pathfinding->addActor(graph);
+	m_currentSceneIndex =  addScene(pathfinding);
+
 	SetTargetFPS(60);
 }
 
 void Game::update(float deltaTime)
 {
-	for (int i = 0; i < m_sceneCount; i++)
-	{
-		m_scenes[i]->update(deltaTime);
-	}
+	getCurrentScene()->update(deltaTime);
 }
 
 void Game::draw()
@@ -96,10 +103,7 @@ void Game::draw()
 	BeginMode2D(*m_camera);
 	ClearBackground(BLACK);
 
-	for (int i = 0; i < m_sceneCount; i++)
-	{
-		m_scenes[i]->draw();
-	}
+	getCurrentScene()->draw();
 
 	EndMode2D();
 	EndDrawing();
