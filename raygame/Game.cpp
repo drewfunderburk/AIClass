@@ -18,6 +18,7 @@
 #include "PursueDecision.h"
 #include "EvadeDecision.h"
 #include "Graph.h"
+#include "Node.h"
 
 bool Game::m_gameOver = false;
 Scene** Game::m_scenes = new Scene*;
@@ -83,14 +84,20 @@ void Game::start()
 	// PATHFINDING
 	Graph* graph = new Graph(20, 20, 10, 1);
 	graph->setWorldPostion({ 2,2 });
-	graph->aStar(0, 0, 2, 10);
+	std::vector<Node*> path = graph->aStar(10, 19, 15, 2);
+	for (int i = 1; i < path.size() - 1; i++)
+	{
+		path[i]->color = ColorToInt(BLUE);
+	}
+	/*
 	Graph* graph2 = new Graph(20, 20, 10, 1);
 	graph2->setWorldPostion({ 25,2 });
-	graph2->dijkstra(0, 0, 2, 19);
+	graph2->dijkstra(10, 19, 15, 2);
+	*/
 
 	Scene* pathfinding = new Scene();
 	pathfinding->addActor(graph);
-	pathfinding->addActor(graph2);
+	//pathfinding->addActor(graph2);
 	m_currentSceneIndex =  addScene(pathfinding);
 
 	SetTargetFPS(60);
