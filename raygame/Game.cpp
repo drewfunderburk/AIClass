@@ -40,7 +40,7 @@ void Game::start()
 	m_screenWidth = 1024;
 	m_screenHeight = 760;
 
-	InitWindow(GetScreenWidth(), GetScreenHeight(), "raylib [core] example - basic window");
+	InitWindow(getScreenWidth(), getScreenHeight(), "raylib [core] example - basic window");
 	m_camera->offset = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
 	m_camera->target = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
 	m_camera->zoom = 1;
