@@ -240,7 +240,7 @@ std::vector<Node*> Graph::aStar(int startX, int startY, int goalX, int goalY)
 		openList = sortQueue(openList);
 
 		//Set the iterator to be the first item in the open list
-		iterator = openList[0];
+		iterator = openList.front();
 
 		//Check if the iterator is pointing to the goal node
 		if (iterator == goal)
@@ -290,7 +290,7 @@ std::vector<Node*> Graph::aStar(int startX, int startY, int goalX, int goalY)
 
 					//Set the nodes g score to be the g score calculated earlier
 					other->gScore = gScore;
-					other->hScore = hScore;
+					other->hScore = (other->graphPosition - goal->graphPosition).getMagnitude();;
 
 					//Set the nodes previous to be the iterator
 					other->previous = iterator;
