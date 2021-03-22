@@ -83,9 +83,14 @@ void Game::start()
 	// PATHFINDING
 	Graph* graph = new Graph(20, 20, 10, 1);
 	graph->setWorldPostion({ 2,2 });
-	graph->aStar(0, 0, 15, 0);
+	graph->aStar(0, 0, 2, 10);
+	Graph* graph2 = new Graph(20, 20, 10, 1);
+	graph2->setWorldPostion({ 25,2 });
+	graph2->dijkstra(0, 0, 2, 19);
+
 	Scene* pathfinding = new Scene();
 	pathfinding->addActor(graph);
+	pathfinding->addActor(graph2);
 	m_currentSceneIndex =  addScene(pathfinding);
 
 	SetTargetFPS(60);

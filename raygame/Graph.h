@@ -22,6 +22,7 @@ public:
 private:
 	void createGraph(int nodeSize, int nodeSpacing);
 	std::deque<Node*> sortQueue(std::deque<Node*> queue);
+	std::deque<Node*> sortQueueAscending(std::deque<Node*> queue);
 	bool isInQueue(std::deque<Node*> queue, Node* node);
 
 private:

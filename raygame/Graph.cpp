@@ -278,9 +278,9 @@ std::vector<Node*> Graph::aStar(int startX, int startY, int goalX, int goalY)
 			if (!isInQueue(closedList, other))
 			{
 				//Create an int and set it to be the g score of the iterator plus the cost of the edge
-				int gScore = iterator->gScore + iterator->edges[i]->cost;
-				int hScore = (iterator->graphPosition - goal->graphPosition).getMagnitude();
-				int fScore = gScore + hScore;
+				float gScore = iterator->gScore + iterator->edges[i]->cost;
+				float hScore = (iterator->graphPosition - goal->graphPosition).getMagnitude();
+				float fScore = gScore + hScore;
 				//Check if the node at the end ofthe edge is in the open list
 				if (!isInQueue(openList, other))
 				{
@@ -408,6 +408,23 @@ std::deque<Node*> Graph::sortQueue(std::deque<Node*> queue)
 				Node* temp = queue[i];
 				queue[i] = queue[j - 1];
 				queue[j - 1] = temp;
+			}
+		}
+	}
+	return queue;
+}
+
+std::deque<Node*> Graph::sortQueueAscending(std::deque<Node*> queue)
+{
+	for (int i = 0; i < queue.size(); i++)
+	{
+		for (int j = i; j < queue.size(); j++)
+		{
+			if (queue[i]->getFScore() > queue[j]->getFScore())
+			{
+				Node* temp = queue[i];
+				queue[i] = queue[j];
+				queue[j] = temp;
 			}
 		}
 	}
